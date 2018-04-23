@@ -39,7 +39,7 @@ public class Cs420Project1 {
                 case 3:
                     break;
                 case 4:
-                    runTest(400);
+                    runTest(5000);
                     break;
                 default:
                     System.out.println("invalid entry\n");
@@ -64,11 +64,11 @@ public class Cs420Project1 {
         }
         
         Driver d = new Driver();
-            long startTime = System.nanoTime();
+            long startTime = System.currentTimeMillis();
             d.run(new EightPuzzleH1(test,goal,null));
             d.printFinalPath();
             d.clear();
-            long endTime = System.nanoTime();
+            long endTime = System.currentTimeMillis();
             long duration = (endTime - startTime);
             
             d.run(new EightPuzzleH2(test,goal,null));
@@ -112,9 +112,9 @@ public class Cs420Project1 {
         }
         Driver d = new Driver();
         for(Object item: set){
-            long startTime = System.nanoTime();
+            long startTime = System.currentTimeMillis();
             d.run(new EightPuzzleH1((int[])item,goal,null));
-            long endTime = System.nanoTime();
+            long endTime = System.currentTimeMillis();
             long duration = (endTime - startTime);
             Stat h1 = h1stats.get(d.getDepth());
             h1.total += d.getGenerated();
@@ -122,9 +122,9 @@ public class Cs420Project1 {
             h1.count++;
             d.clear();
             
-            startTime = System.nanoTime();
+            startTime = System.currentTimeMillis();
             d.run(new EightPuzzleH2((int[])item,goal,null));
-            endTime = System.nanoTime();
+            endTime = System.currentTimeMillis();
             duration = (endTime - startTime);
             Stat h2 = h2stats.get(d.getDepth());
             h2.total += d.getGenerated();
@@ -143,7 +143,7 @@ public class Cs420Project1 {
      * @throws IOException 
      */
     private static void printStats(ArrayList<Stat> h1stats, ArrayList<Stat> h2stats) throws IOException {
-        PrintWriter pw = new PrintWriter(new File("test.csv"));
+        PrintWriter pw = new PrintWriter(new File("test2.csv"));
         StringBuilder sb = new StringBuilder();
         sb.append("d,h1 search cost,h1 time,h1 count,h2 search cost,h2 time,h2 count");
         for(int i=0; i<50; i++){
@@ -153,8 +153,8 @@ public class Cs420Project1 {
                sb.append("\n");
                continue;
            }
-           sb.append(i+","+h1.total/h1.count+","+h1.time/h1.count+","+h1.count+
-                   ","+h2.total/h2.count+","+h2.time/h2.count+","+h2.count+'\n');
+           sb.append(i+","+h1.total/h1.count+","+h1.getAverageTime()+","+h1.count+
+                   ","+h2.total/h2.count+","+h2.getAverageTime()+","+h2.count+'\n');
         }
         pw.write(sb.toString());
         pw.close();

@@ -6,13 +6,18 @@ package cs420.project.pkg1;
  */
 public class Stat {
     int depth;
-    int total;
+    long total;
     int count;
-    int time;
+    long time;
     
     Stat(){
         depth = 0;
         total = 0;
         count = 0;
     }
+    
+    public float getAverageTime(){
+        return (float)time / (float)count;
+    }
+    
 }
